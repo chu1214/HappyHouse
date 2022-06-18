@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.api.model.mapper.NoticeMapper">
+
+<!-- 공지 전체 조회 -->
+   <select id="selectNotice" resultType="board">
+      select * from notice
+      order by articleno desc
+   </select>
+   
+   <!-- 공지 상세 조회 -->
+   <select id="selectNoticeByNo" resultType="board">
+      select *
+		from notice
+      where articleno = #{articleno}
+   </select>
+   
+   <!-- 공지 제목기반 조회 -->
+   <select id="selectNoticeBySubject" resultType="board" parameterType="String">
+      select *
+		from notice
+      where subject like concat('%',#{subject},'%')
+   </select>
+
+   <!-- 공지 등록 -->
+   <insert id="insertNotice" parameterType="board">
+      insert into notice(
+         subject, userid, content
+      ) values (
+         #{subject}, #{userid}, #{content}
+      )
+   </insert>
+   
+   <!-- 공지 수정 -->
+   <update id="updateNotice" parameterType="board">
+      update notice 
+         set subject = #{subject}, 
+               userid = #{userid}, 
+               content = #{content},
+               hit = #{hit}
+       where articleno = #{articleno}
+   </update>
+
+   <!-- 공지 삭제 -->
+   <delete id="deleteNotice" parameterType="int">
+      delete 
+      from notice 
+      where articleno = #{articleno}
+   </delete>
+
+</mapper>
